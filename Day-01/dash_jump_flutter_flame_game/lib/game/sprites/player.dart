@@ -98,7 +98,11 @@ class Player extends SpriteGroupComponent<PlayerState>
   void moveLeft() {
     _hAxisInput = 0;
 
-    current = PlayerState.left;
+    if(isWearingHat) {
+      current = PlayerState.nooglerLeft;
+    }else if(!hasPowerup) {
+      current = PlayerState.left;
+    }
 
     _hAxisInput += movingLeftInput;
   }
@@ -106,7 +110,11 @@ class Player extends SpriteGroupComponent<PlayerState>
   void moveRight() {
     _hAxisInput = 0;
 
-    current = PlayerState.right;
+    if(isWearingHat){
+      current = PlayerState.nooglerRight;
+    }else if(!hasPowerup){
+      current = PlayerState.right;
+    }
 
     _hAxisInput += movingRightInput;
   }
@@ -117,14 +125,14 @@ class Player extends SpriteGroupComponent<PlayerState>
 
   bool get hasPowerup => current == PlayerState.rocket || current == PlayerState.nooglerLeft || current == PlayerState.nooglerRight || current == PlayerState.nooglerCenter;
 
-  bool get isInvinvible => current == PlayerState.rocket;
+  bool get isInvincible => current == PlayerState.rocket;
 
   bool get isWearingHat => current == PlayerState.nooglerLeft || current == PlayerState.nooglerRight || current == PlayerState.nooglerCenter;
 
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
 
-    if(other is EnemyPlatform) {
+    if(other is EnemyPlatform && !isInvincible) {
       gameRef.onLose();
       return;
     }
