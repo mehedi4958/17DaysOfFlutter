@@ -5,6 +5,7 @@
 import 'dart:async';
 
 import 'package:dash_jump_flutter_flame_game/game/sprites/platform.dart';
+import 'package:dash_jump_flutter_flame_game/game/sprites/powerup.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/services.dart';
@@ -114,11 +115,11 @@ class Player extends SpriteGroupComponent<PlayerState>
     _hAxisInput = 0;
   }
 
-  // Powerups: Add hasPowerup getter
+  bool get hasPowerup => current == PlayerState.rocket || current == PlayerState.nooglerLeft || current == PlayerState.nooglerRight || current == PlayerState.nooglerCenter;
 
-  // Powerups: Add isInvincible getter
+  bool get isInvinvible => current == PlayerState.rocket;
 
-  // Powerups: Add isWearingHat getter
+  bool get isWearingHat => current == PlayerState.nooglerLeft || current == PlayerState.nooglerRight || current == PlayerState.nooglerCenter;
 
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
@@ -143,6 +144,21 @@ class Player extends SpriteGroupComponent<PlayerState>
         other.breakPlatform();
         return;
       }
+    }
+
+    if(!hasPowerup && other is Rocket) {
+      current = PlayerState.rocket;
+      other.removeFromParent();
+      jump(specialJumpSpeed: jumpSpeed * other.jumpSpeedMultiplier);
+      return;
+    }else if(!hasPowerup && other is NooglerHat) {
+      if(current == PlayerState.center) current == PlayerState.nooglerCenter;
+      if(current == PlayerState.left) current == PlayerState.nooglerLeft;
+      if(current == PlayerState.right) current == PlayerState.nooglerRight;
+      other.removeFromParent();
+      _removePowerupAfterTime(other.activeLengthInMS);
+      jump(specialJumpSpeed: jumpSpeed * other.jumpSpeedMultiplier);
+      return;
     }
 
     super.onCollision(intersectionPoints, other);
