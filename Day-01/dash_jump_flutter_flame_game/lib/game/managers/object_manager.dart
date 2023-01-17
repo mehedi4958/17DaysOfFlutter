@@ -189,11 +189,11 @@ void _cleanUpEnemies() {
 
 void _maybeAddPowerup() {
     if(specialPlatforms['noogler'] == true && probGen.generateWithProbability(20)) {
-      var nooglerHat = NooglerHat(position: Vector2(_generateNextX(75), _generateNextY(),),);
+      var nooglerHat = NooglerHat(position: Vector2(_generateNextX(75), _generateNextY()),);
       add(nooglerHat);
       _powerUps.add(nooglerHat);
     } else if( specialPlatforms['rocket'] == true && probGen.generateWithProbability(15)) {
-      var rocket = Rocket(position: Vector2(_generateNextX(50), _generateNextY(),),);
+      var rocket = Rocket(position: Vector2(_generateNextX(50), _generateNextY()),);
       add(rocket);
       _powerUps.add(rocket);
     }
@@ -205,8 +205,9 @@ void _cleanupPowerups() {
     final screenBottom = gameRef.player.position.y + (gameRef.size.x / 2) + gameRef.screenBufferSpace;
     while(_powerUps.isNotEmpty && _powerUps.first.position.y > screenBottom) {
       if(_powerUps.first.parent != null) {
-        _powerUps.removeAt(0);
+        remove(_powerUps.first);
       }
+      _powerUps.removeAt(0);
     }
 }
 }

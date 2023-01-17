@@ -132,6 +132,8 @@ class Player extends SpriteGroupComponent<PlayerState>
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
 
+    super.onCollision(intersectionPoints, other);
+
     if(other is EnemyPlatform && !isInvincible) {
       gameRef.onLose();
       return;
@@ -168,8 +170,6 @@ class Player extends SpriteGroupComponent<PlayerState>
       jump(specialJumpSpeed: jumpSpeed * other.jumpSpeedMultiplier);
       return;
     }
-
-    super.onCollision(intersectionPoints, other);
   }
 
   void jump({double? specialJumpSpeed}) {

@@ -28,10 +28,10 @@ abstract class PowerUp extends SpriteComponent
 }
 
 class Rocket extends PowerUp {
-  Rocket({super.position});
-
   @override
   double get jumpSpeedMultiplier => 3.5;
+
+  Rocket({super.position});
 
   @override
   Future<void>? onLoad() async{
@@ -42,10 +42,10 @@ class Rocket extends PowerUp {
 }
 
 class NooglerHat extends PowerUp {
-  NooglerHat({super.position});
-
   @override
   double get jumpSpeedMultiplier => 2.5;
+
+  NooglerHat({super.position});
 
   final int activeLengthInMS = 5000;
 
