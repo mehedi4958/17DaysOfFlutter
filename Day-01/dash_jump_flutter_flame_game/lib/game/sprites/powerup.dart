@@ -27,6 +27,32 @@ abstract class PowerUp extends SpriteComponent
   }
 }
 
-// Powerups: Add Rocket class
+class Rocket extends PowerUp {
+  Rocket({super.position});
 
-// Powerups: Add NooglerHat class
+  @override
+  double get jumpSpeedMultiplier => 3.5;
+
+  @override
+  Future<void>? onLoad() async{
+    await super.onLoad();
+    sprite = await gameRef.loadSprite('game/rocket_1.png');
+    size = Vector2(50, 70);
+  }
+}
+
+class NooglerHat extends PowerUp {
+  NooglerHat({super.position});
+
+  @override
+  double get jumpSpeedMultiplier => 2.5;
+
+  final int activeLengthInMS = 5000;
+
+  @override
+  Future<void>? onLoad() async{
+    await super.onLoad();
+    sprite = await gameRef.loadSprite('game/noogler_hat.png');
+    size = Vector2(75, 50);
+  }
+}
